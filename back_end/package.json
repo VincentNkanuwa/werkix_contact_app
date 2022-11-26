@@ -1,7 +1,7 @@
 {
   "name": "back_end",
   "version": "1.0.0",
-  "description": "contact_app_backend",
+  "description": "Werkix dev assessment",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
