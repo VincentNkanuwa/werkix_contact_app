@@ -31,6 +31,17 @@ routes.route('/').get((req, res)=>{
   })
 })
 
+routes.route('/:id').get((req, res)=>{
+  let id = req.params.id;
+  Contact.findById(id, (err, contact)=>{
+    if(err){
+      console.log(err);
+    }else{
+      res.json(contact);
+    }
+  })
+})
+
 app.use('/contacts', routes);
 
 app.listen(PORT, ()=>{
