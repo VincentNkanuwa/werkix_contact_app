@@ -23,31 +23,32 @@ db.once('open', function() {
 const bodyParser = require('body-parser');
 const { find } = require('./Models/contacts');
 const { findByIdAndDelete } = require('./Models/contacts');
+const contacts = require('./Models/contacts');
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(cors());
 
 app.get('/contacts', async (req, res)=>{
-  await Contact.find((err, contacts)=>{
-    if(err){
+  let contacts = await Contact.find()
+    if(!contacts){
       console.log(err);
     }else{
       res.json(contacts)
     }
-  })
 })
 
 // Getting a single contact give id
-app.get('/contacts/:id', async (req, res)=>{
+app.get('/contacts/:id', (req, res)=>{
   let id = req.params.id;
-  await Contact.findById(id, (err, contact)=>{
-    if(err){
-      console.log(err);
-    }else{
-      res.json(contact); 
-    }
+  Contact.findById(id, (err, contact)=>{
+      if(contact){
+      res.status(200).json(contact); 
+      }else{
+        res.status(404).send('Contact not found');
+      }
+    })
   })
-})
+    
 
 // Creating a contact
 app.post('/contacts/create', (req, res)=>{
@@ -80,8 +81,8 @@ app.post('/contacts/create', (req, res)=>{
 })
 
 // Updating a contact API
-app.post('/contacts/update/:id', async(req, res)=>{
-  await Contact.findById(req.params.id, (err, contact)=>{
+app.post('/contacts/update/:id', (req, res)=>{
+  Contact.findById(req.params.id, (err, contact)=>{
     if(!contact){
       res.status(404).send('Contact not found');
     }else{
@@ -100,14 +101,26 @@ app.post('/contacts/update/:id', async(req, res)=>{
   })
 })
 
-app.delete('/contacts/delete/:id', async(req, res)=>{
-  await Contact.findByIdAndDelete(req.params.id, (err, contact)=>{
+app.delete('/contacts/delete/:id', (req, res)=>{
+  Contact.findByIdAndDelete(req.params.id, (err, contact)=>{
     if(!contact){
       res.status(404).send('Contact not found');
     }else{
       res.json('Contact deleted successfully');
     }
   })
+})
+
+// Search by Last Name API
+app.get("/contacts/search/:key", async (req, res)=>{
+  let data = await Contact.find(
+    {
+      "$or":[
+        {last_name:{$regex:req.params.key}}
+      ]
+    }
+  )
+  res.send(data)
 })
 
 app.listen(PORT, ()=>{
