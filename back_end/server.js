@@ -21,6 +21,8 @@ db.once('open', function() {
 
 
 const bodyParser = require('body-parser');
+const { find } = require('./Models/contacts');
+const { findByIdAndDelete } = require('./Models/contacts');
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(cors());
@@ -77,7 +79,7 @@ app.post('/contacts/create', (req, res)=>{
   }
 })
 
-// Updating a contact
+// Updating a contact API
 app.post('/contacts/update/:id', (req, res)=>{
   Contact.findById(req.params.id, (err, contact)=>{
     if(!contact){
@@ -94,6 +96,16 @@ app.post('/contacts/update/:id', (req, res)=>{
       .catch(err=>{
         res.status(400).send('Something happend. Try again');
       })
+    }
+  })
+})
+
+app.delete('/contacts/delete/:id', (req, res)=>{
+  Contact.findByIdAndDelete(req.params.id, (err, contact)=>{
+    if(!contact){
+      res.status(404).send('Contact not found');
+    }else{
+      res.json('Contact deleted successfully');
     }
   })
 })
