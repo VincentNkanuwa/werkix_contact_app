@@ -3,7 +3,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
+const routes = express.Router();
 const PORT = 8000;
+
+let Contact = require('./Models/contacts');
+
 
 mongoose.connect('mongodb://127.0.0.1:27017/werkix');
 
@@ -16,6 +20,18 @@ db.once('open', function() {
 
 app.use(cors());
 app.use(bodyParser.json);
+
+routes.route('/').get((req, res)=>{
+  Contact.find((err, contacts)=>{
+    if(err){
+      console.log(err);
+    }else{
+      res.json(contacts)
+    }
+  })
+})
+
+app.use('/contacts', routes);
 
 app.listen(PORT, ()=>{
     console.log('Server started on port: ' +PORT);
