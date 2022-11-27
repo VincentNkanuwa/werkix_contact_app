@@ -35,6 +35,7 @@ app.get('/contacts', (req, res)=>{
   })
 })
 
+// Getting a single contact give id
 app.get('/contacts/:id', (req, res)=>{
   let id = req.params.id;
   Contact.findById(id, (err, contact)=>{
@@ -46,6 +47,7 @@ app.get('/contacts/:id', (req, res)=>{
   })
 })
 
+// Creating a contact
 app.post('/contacts/create', (req, res)=>{
   if(!req.body.first_name){
     res.status(400).send({ message: "First Name can not be empty!" });
@@ -75,8 +77,9 @@ app.post('/contacts/create', (req, res)=>{
   }
 })
 
+// Updating a contact
 app.post('/contacts/update/:id', (req, res)=>{
-  Contact.find(req.params.id, (err, contact)=>{
+  Contact.findById(req.params.id, (err, contact)=>{
     if(!contact){
       res.status(404).send('Contact not found');
     }else{
@@ -88,7 +91,7 @@ app.post('/contacts/update/:id', (req, res)=>{
       .then(contact=>{
         res.json('Contact updated successfully');
       })
-      then(err=>{
+      .catch(err=>{
         res.status(400).send('Something happend. Try again');
       })
     }
