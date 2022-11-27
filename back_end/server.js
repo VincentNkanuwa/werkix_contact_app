@@ -25,10 +25,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/', (req, res)=>{
-  res.send('OK');
-})
-
 app.get('/contacts', (req, res)=>{
   Contact.find((err, contacts)=>{
     if(err){
