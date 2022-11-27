@@ -27,8 +27,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/contacts', (req, res)=>{
-  Contact.find((err, contacts)=>{
+app.get('/contacts', async (req, res)=>{
+  await Contact.find((err, contacts)=>{
     if(err){
       console.log(err);
     }else{
@@ -38,9 +38,9 @@ app.get('/contacts', (req, res)=>{
 })
 
 // Getting a single contact give id
-app.get('/contacts/:id', (req, res)=>{
+app.get('/contacts/:id', async (req, res)=>{
   let id = req.params.id;
-  Contact.findById(id, (err, contact)=>{
+  await Contact.findById(id, (err, contact)=>{
     if(err){
       console.log(err);
     }else{
@@ -80,8 +80,8 @@ app.post('/contacts/create', (req, res)=>{
 })
 
 // Updating a contact API
-app.post('/contacts/update/:id', (req, res)=>{
-  Contact.findById(req.params.id, (err, contact)=>{
+app.post('/contacts/update/:id', async(req, res)=>{
+  await Contact.findById(req.params.id, (err, contact)=>{
     if(!contact){
       res.status(404).send('Contact not found');
     }else{
@@ -100,8 +100,8 @@ app.post('/contacts/update/:id', (req, res)=>{
   })
 })
 
-app.delete('/contacts/delete/:id', (req, res)=>{
-  Contact.findByIdAndDelete(req.params.id, (err, contact)=>{
+app.delete('/contacts/delete/:id', async(req, res)=>{
+  await Contact.findByIdAndDelete(req.params.id, (err, contact)=>{
     if(!contact){
       res.status(404).send('Contact not found');
     }else{
