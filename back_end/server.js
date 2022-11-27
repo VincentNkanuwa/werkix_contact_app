@@ -42,6 +42,35 @@ routes.route('/:id').get((req, res)=>{
   })
 })
 
+route.route('/create').post((req, res)=>{
+  if(!req.body.first_name){
+    res.status(400).send({ message: "First Name can not be empty!" });
+    return;
+  }
+  if(!req.body.last_name){
+    res.status(400).send({ message: "Last Name can not be empty!" });
+    return;
+  }
+  if(!req.body.phone){
+    res.status(400).send({ message: "Phone can not be empty!" });
+    return;
+  }else{
+    let contact = new Contact(req.body);
+    contact
+      .save()
+      .then(contact=>{
+        res.status(201).json({'contact' : 'Contact added successfully'});
+      })
+      .catch(err=>{
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Tutorial."
+        });
+      })
+
+  }
+})
+
 app.use('/contacts', routes);
 
 app.listen(PORT, ()=>{
