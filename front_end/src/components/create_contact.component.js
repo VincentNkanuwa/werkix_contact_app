@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useState} from "react"
+import { Button, Form } from "react-bootstrap";
+import axios from 'axios';
 
 export default function CreateContact(){
     const [contact, setContact] = useState({
@@ -6,24 +8,50 @@ export default function CreateContact(){
         last_name:'',
         phone:''
     })
+
+    const handleChange = (event)=>{
+        const {name, value} = event.target;
+
+        setContact((prev)=>{
+            return{
+                ...prev,
+                [name] : value
+            }
+        })
+    }
+    const handleSubmit = (event)=>{
+        event.preventDefault();
+        console.log(contact);
+
+        axios
+            .post('http://localhost:8080/contacts/create', contact)
+            .then((res)=>console.log(res))
+            .catch((err)=>console.log(err));
+    }
+    
     return(
         <div style={{marginTop: 20}}>
             <h3>Contact create</h3>
-                <form>
-                    <div className="form-group">
-                        <label for="exampleInputEmail1">First Name</label>
-                        <input value={contact.first_name} name="first_name" type="text" onChange={handleChange} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
-                    </div>
-                    <div className="form-group">
-                        <label for="exampleInputPassword1">Last Name</label>
-                        <input value={contact.last_name} name="last_name" type="text" className="form-control" id="exampleInputPassword1"/>
-                    </div>
-                    <div className="form-group">
-                        <label for="exampleInputPassword1">Phone Number</label>
-                        <input value={contact.phone} name="phone" type="text" className="form-control" id="exampleInputPassword1"/>
-                    </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
-                </form>
+            <Form>
+                <Form.Group className="mb-3" controlId="first_name">
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control onChange={handleChange} name="first_name" value={contact.first_name}  type="text" placeholder="first name" />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="last_name">
+                    <Form.Label>Last Name</Form.Label>
+                    <Form.Control onChange={handleChange} name="last_name" value={contact.last_name}  type="text" placeholder="last name" />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="phone">
+                    <Form.Label>Phone</Form.Label>
+                    <Form.Control onChange={handleChange} name="phone" value={contact.phone}  type="text" placeholder="phone" />
+                </Form.Group>
+                <Button
+                    style={{width:'100%', marginTop:'1rem'}} 
+                    onClick={handleSubmit} 
+                    variant="primary">
+                    Submit
+                </Button>
+            </Form>
         </div>
     )
 }
