@@ -1,8 +1,10 @@
 import { useState} from "react"
 import { Button, Form } from "react-bootstrap";
 import axios from 'axios';
+import { redirect, useNavigate } from "react-router-dom";
 
 export default function CreateContact(){
+    const navigate = useNavigate();
     const [contact, setContact] = useState({
         first_name:'',
         last_name:'',
@@ -27,11 +29,13 @@ export default function CreateContact(){
             .post('http://localhost:8080/contacts/create', contact)
             .then((res)=>console.log(res))
             .catch((err)=>console.log(err));
+
+            navigate('/');
     }
     
     return(
         <div style={{marginTop: 20}}>
-            <h3>Contact create</h3>
+            <h3>Add new contact</h3>
             <Form>
                 <Form.Group className="mb-3" controlId="first_name">
                     <Form.Label>First Name</Form.Label>
