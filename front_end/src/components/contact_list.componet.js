@@ -38,7 +38,7 @@ export default function ContactList(){
                 contacts && contacts.map((contact)=>(
                     <ListGroup.Item key={contact._id} as="li" className="d-flex justify-content-between align-items-start">
                         <div className="ms-2 me-auto">
-                            <Link style={{ textDecoration: 'none', color:'black' }}><div className="fw-bold">{contact.first_name} {contact.last_name}</div></Link><Telephone/>
+                            <Link to={`/edit/${contact._id}`} style={{ textDecoration: 'none', color:'black' }}><div className="fw-bold">{contact.first_name} {contact.last_name}</div></Link><Telephone/>
                             {contact.phone}
                         </div>
                         <Button onClick={()=>deleteContact(contact._id)} style={{background:"red"}}>
