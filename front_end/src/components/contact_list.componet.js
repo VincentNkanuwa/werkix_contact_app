@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter, Button, Form, Table, ListGroup, Badge } from "react-bootstrap";
+import {Button, Form, Table, ListGroup, Badge } from "react-bootstrap";
 import {Search, Telephone, Trash} from 'react-bootstrap-icons';
 import { Link } from "react-router-dom";
 
@@ -15,6 +15,16 @@ export default function ContactList(){
             })
             .catch((err)=>console.log(err))
     }, []);
+
+    const deleteContact = (id)=>{
+        console.log(id);
+        axios
+            .delete(`http://localhost:8080/contacts/delete/${id}`)
+            .then(res=>console.log(res))
+            .catch(err=>console.log(err));
+        window.location.reload();
+    }
+
     return(
         <ListGroup as="ol">
             <Form>
@@ -31,9 +41,9 @@ export default function ContactList(){
                             <Link style={{ textDecoration: 'none', color:'black' }}><div className="fw-bold">{contact.first_name} {contact.last_name}</div></Link><Telephone/>
                             {contact.phone}
                         </div>
-                        <Badge bg="danger">
+                        <Button onClick={()=>deleteContact(contact._id)} style={{background:"red"}}>
                             <Trash color="white" size={20} />
-                        </Badge>
+                        </Button>
                     </ListGroup.Item>
                 ))
             }
