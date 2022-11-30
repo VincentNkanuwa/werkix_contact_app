@@ -17,7 +17,7 @@
 # Deployning the front-end
 1. Navigate to "werkix_contact_app/front-end"
 2. Open terminal or command prompt in that directory
-3. Run the command "npm install" to install node modules. Make sure you are connected to stable fast internet when rinning this command
+3. Run the command "npm install" to install node modules. Make sure you are connected to stable fast internet when running this command
 4. After succeccfull completion of the installation of the node modules, run the command "npm start".
 5. The command "npm start will trigger the openig of the browser with the app running from which many tests can be done"
 
