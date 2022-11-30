@@ -28,9 +28,9 @@ export default function ContactList(){
     return(
         <ListGroup as="ol">
             <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Group className="mb-3" controlId="search">
                     <div>
-                        <Form.Control type="email" placeholder="Enter email" /> 
+                        <Form.Control type="email" placeholder="Search contact by last name" /> 
                     </div>                     
                 </Form.Group>
             </Form>
