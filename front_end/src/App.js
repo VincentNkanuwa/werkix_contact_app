@@ -15,7 +15,7 @@ function App() {
             <ul className='navbar-nav'>
               <li className='navbar-item'>
                 <Link to={'/create'}>
-                  <Button variant='primary' className='nav-link'><b>+Add Contact</b></Button>
+                  <Button variant='primary'><b>+Add Contact</b></Button>
                 </Link>
               </li>
             </ul>
