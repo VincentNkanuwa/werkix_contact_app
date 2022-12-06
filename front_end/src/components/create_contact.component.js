@@ -1,7 +1,7 @@
 import { useState} from "react"
 import { Button, Form } from "react-bootstrap";
 import axios from 'axios';
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateContact(){
     const navigate = useNavigate();

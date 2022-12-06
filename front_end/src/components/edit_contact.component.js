@@ -1,20 +1,31 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { redirect } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function EditContact(){
-    // const [contact, setContact] = useState({
-    //     first_name:'',
-    //     last_name:'',
-    //     phone:''
-    // })
+    const navigate = useNavigate();
+    const [updatedContact, setUpdatedContact] = useState({
+        first_name:'',
+        last_name:'',
+        phone:''
+    });
 
-    const [updatedContact, setUpdatedContact] = useState({});
+    let { id } = useParams();
+    console.log(id);
 
-    const updateContact = (contact)=>{
-        console.log(contact);
-    }
+    useEffect(()=>{
+        axios
+            .get(`http://localhost:8080/contacts/${id}`)
+            .then((res)=>{console.log(res);
+            setUpdatedContact(res.data);
+            })
+            .catch((err)=>console.log(err))
+    }, []);
+
+    // const updateContact = (contact)=>{
+    //     console.log(contact);
+    // }
 
     const handleChange = (event)=>{
         const {name, value} = event.target;
@@ -28,14 +39,14 @@ export default function EditContact(){
     }
     const handleSubmit = (event)=>{
         event.preventDefault();
-        console.log(updateContact);
+        console.log(updatedContact);
 
         axios
-            .post('http://localhost:8080/contacts/create', updateContact``)
+            .post(`http://localhost:8080/contacts/update/${id}`, updatedContact)
             .then((res)=>console.log(res))
             .catch((err)=>console.log(err));
 
-            redirect('/');
+            navigate('/');
     }
 
     return(
